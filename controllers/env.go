@@ -6,5 +6,6 @@ type Env struct {
 	Books interface {
 		GetAll() ([]models.Book, error)
 		GetByIsbn(isbn string) (models.Book, error)
+		Update(isbn string, book models.Book) error
 	}
 }

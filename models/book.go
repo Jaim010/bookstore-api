@@ -50,3 +50,7 @@ func (m BookModel) GetByIsbn(isbn string) (Book, error) {
 	}
 	return bk, nil
 }
+
+func (m BookModel) Update(isbn string, book Book) error {
+
+}
