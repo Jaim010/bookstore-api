@@ -56,3 +56,43 @@ func (env *Env) PutBook(c *gin.Context) {
 
 	c.Status(http.StatusNoContent)
 }
+
+func (env *Env) PostBook(c *gin.Context) {
+	var newBook models.Book
+
+	if err := c.BindJSON(&newBook); err != nil {
+		c.IndentedJSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	book, err := env.Books.Post(newBook)
+	if err != nil {
+		c.IndentedJSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.IndentedJSON(http.StatusCreated, book)
+}
+
+func (env *Env) DeleteBook(c *gin.Context) {
+	isbn := c.Param("isbn")
+
+	book, err := env.Books.GetByIsbn(isbn)
+	if err != nil {
+		if err == sql.ErrNoRows {
+			c.IndentedJSON(http.StatusNotFound, gin.H{"message": "book not found"})
+			return
+		}
+
+		c.IndentedJSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	err = env.Books.Delete(book)
+	if err != nil {
+		c.IndentedJSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.Status(http.StatusNoContent)
+}

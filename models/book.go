@@ -5,10 +5,10 @@ import (
 )
 
 type Book struct {
-	Isbn   string
-	Title  string
-	Author string
-	Price  float32
+	Isbn   string  `json:"isbn"`
+	Title  string  `json:"title"`
+	Author string  `json:"author"`
+	Price  float32 `json:"price"`
 }
 
 // Create a custom BookModel type which wraps the sql.DB connection pool.
@@ -52,5 +52,40 @@ func (m BookModel) GetByIsbn(isbn string) (Book, error) {
 }
 
 func (m BookModel) Update(isbn string, book Book) error {
+	result, err := m.DB.Exec(`
+		UPDATE books 
+		SET isbn = $1, title = $2, author = $3, price = $4
+		WHERE isbn = $5`, book.Isbn, book.Title, book.Author, book.Price, isbn,
+	)
 
+	if err != nil {
+		return err
+	}
+
+	if _, err := result.LastInsertId(); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (m BookModel) Post(book Book) (Book, error) {
+	_, err := m.DB.Exec(`
+		INSERT INTO books (isbn, title, artist, price)
+		VALUES ($1, $2, $3, $4)`,
+		book.Isbn, book.Title, book.Author, book.Price,
+	)
+
+	if err != nil {
+		return Book{}, err
+	}
+	return book, nil
+}
+
+func (m BookModel) Delete(book Book) error {
+	_, err := m.DB.Exec("DELETE FROM books WHERE isbn = $1, title = $2, author = $3, price = $4", book.Isbn, book.Title, book.Author, book.Price)
+	if err != nil {
+		return err
+	}
+	return nil
 }

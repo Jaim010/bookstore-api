@@ -22,6 +22,7 @@ func main() {
 	router := gin.Default()
 	router.GET("/books/", env.GetAllBooks)
 	router.GET("/books/:isbn", env.GetBook)
+	router.PUT("/books/:isbn", env.PutBook)
 
 	router.Run("localhost:8080")
 }
