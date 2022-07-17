@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/joho/godotenv"
 	_ "github.com/lib/pq"
 )
 
@@ -18,12 +17,6 @@ type connection struct {
 }
 
 func Init() (*sql.DB, error) {
-	err := godotenv.Load("config/.env")
-	if err != nil {
-		fmt.Printf("Error loading .nv file: %s\n", err.Error())
-		return nil, err
-	}
-
 	connInfo := connection{
 		Host:     os.Getenv("POSTGRES_URL"),
 		Port:     os.Getenv("POSTGRES_PORT"),

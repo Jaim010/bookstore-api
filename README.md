@@ -10,6 +10,10 @@ POSTGRES_URL=url
 POSTGRES_PORT=5432
 ```
 
-## Running
-To run enter the command below in the root directory (`/`) .
+## Running the API
+To run the API, enter the command below in the `cmd` directory (`/cmd/`) .
 ```go run .```
+
+## Running tests
+To run the tests, enter the command below in the `tests` directory (`/tests/`) .
+```go test -v```

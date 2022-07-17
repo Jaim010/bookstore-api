@@ -3,16 +3,21 @@ package main
 import (
 	"log"
 
-	"github.com/Jaim010/bookstore/controllers"
-	"github.com/Jaim010/bookstore/database"
-	"github.com/Jaim010/bookstore/models"
+	"github.com/Jaim010/bookstore/pkg/config"
+	"github.com/Jaim010/bookstore/pkg/controllers"
+	"github.com/Jaim010/bookstore/pkg/database"
+	"github.com/Jaim010/bookstore/pkg/models"
 	"github.com/gin-gonic/gin"
 )
 
 func main() {
+	err := config.Init()
+	if err != nil {
+		log.Fatal("Configuration failed, exiting programn")
+	}
 	db, err := database.Init()
 	if err != nil {
-		log.Fatal("Database connection could not be made, exiting programn")
+		log.Fatal("Failed to connect to database, exiting programn")
 	}
 
 	env := &controllers.Env{

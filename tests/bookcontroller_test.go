@@ -9,8 +9,8 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/Jaim010/bookstore/controllers"
-	"github.com/Jaim010/bookstore/models"
+	"github.com/Jaim010/bookstore/pkg/controllers"
+	"github.com/Jaim010/bookstore/pkg/models"
 	"github.com/gin-gonic/gin"
 )
 
