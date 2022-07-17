@@ -21,7 +21,7 @@ func (env *Env) GetBook(c *gin.Context) {
 	bk, err := env.Books.GetByIsbn(isbn)
 	if err != nil {
 		if err == sql.ErrNoRows {
-			c.IndentedJSON(http.StatusOK, nil)
+			c.IndentedJSON(http.StatusNotFound, nil)
 		} else {
 			c.IndentedJSON(http.StatusInternalServerError, nil)
 		}

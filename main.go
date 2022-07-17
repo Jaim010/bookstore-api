@@ -20,7 +20,8 @@ func main() {
 	}
 
 	router := gin.Default()
-	router.GET("/albums", env.GetAllBooks)
+	router.GET("/books/", env.GetAllBooks)
+	router.GET("/books/:isbn", env.GetBook)
 
 	router.Run("localhost:8080")
 }

@@ -2,7 +2,6 @@ package models
 
 import (
 	"database/sql"
-	"fmt"
 )
 
 type Book struct {
@@ -45,12 +44,9 @@ func (m BookModel) GetAll() ([]Book, error) {
 func (m BookModel) GetByIsbn(isbn string) (Book, error) {
 	var bk Book
 
-	row := m.DB.QueryRow("SELECT * FROM books WHERE isbn = ?", isbn)
+	row := m.DB.QueryRow("SELECT * FROM books WHERE isbn = $1", isbn)
 	if err := row.Scan(&bk.Isbn, &bk.Title, &bk.Author, &bk.Price); err != nil {
-		if err == sql.ErrNoRows {
-			return bk, fmt.Errorf("GetByIsbn %s: no such book", isbn)
-		}
-		return bk, fmt.Errorf("GetByIsbn %s: %v", isbn, err)
+		return bk, err
 	}
 	return bk, nil
 }

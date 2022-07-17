@@ -6,6 +6,7 @@ import (
 	"os"
 
 	"github.com/joho/godotenv"
+	_ "github.com/lib/pq"
 )
 
 type connection struct {
@@ -34,11 +35,13 @@ func Init() (*sql.DB, error) {
 	db, err := sql.Open("postgres", connToString(connInfo))
 	if err != nil {
 		fmt.Printf("Error connecting to the DB: %s\n", err.Error())
+		return nil, err
 	}
 	fmt.Println("DB is open")
 
 	if err := db.Ping(); err != nil {
 		fmt.Printf("Error could not ping database: %s\n", err.Error())
+		return nil, err
 	}
 	fmt.Println("DB pinged succesfully")
 
