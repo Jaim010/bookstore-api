@@ -2,6 +2,7 @@ package models
 
 import (
 	"database/sql"
+	"strconv"
 )
 
 type Book struct {
@@ -44,7 +45,7 @@ func (m BookModel) GetAll() ([]Book, error) {
 func (m BookModel) GetByIsbn(isbn string) (Book, error) {
 	var bk Book
 
-	row := m.DB.QueryRow("SELECT * FROM books WHERE isbn = $1", isbn)
+	row := m.DB.QueryRow("SELECT * FROM books WHERE isbn=$1", isbn)
 	if err := row.Scan(&bk.Isbn, &bk.Title, &bk.Author, &bk.Price); err != nil {
 		return bk, err
 	}
@@ -52,17 +53,13 @@ func (m BookModel) GetByIsbn(isbn string) (Book, error) {
 }
 
 func (m BookModel) Update(isbn string, book Book) error {
-	result, err := m.DB.Exec(`
+	_, err := m.DB.Exec(`
 		UPDATE books 
-		SET isbn = $1, title = $2, author = $3, price = $4
+		SET isbn=$1, title=$2, author=$3, price=$4
 		WHERE isbn = $5`, book.Isbn, book.Title, book.Author, book.Price, isbn,
 	)
 
 	if err != nil {
-		return err
-	}
-
-	if _, err := result.LastInsertId(); err != nil {
 		return err
 	}
 
@@ -71,7 +68,7 @@ func (m BookModel) Update(isbn string, book Book) error {
 
 func (m BookModel) Post(book Book) (Book, error) {
 	_, err := m.DB.Exec(`
-		INSERT INTO books (isbn, title, artist, price)
+		INSERT INTO books (isbn, title, author, price)
 		VALUES ($1, $2, $3, $4)`,
 		book.Isbn, book.Title, book.Author, book.Price,
 	)
@@ -83,7 +80,10 @@ func (m BookModel) Post(book Book) (Book, error) {
 }
 
 func (m BookModel) Delete(book Book) error {
-	_, err := m.DB.Exec("DELETE FROM books WHERE isbn = $1, title = $2, author = $3, price = $4", book.Isbn, book.Title, book.Author, book.Price)
+	// Removes trailing zeros
+	price := strconv.FormatFloat(float64(book.Price), 'f', -1, 32)
+
+	_, err := m.DB.Exec("DELETE FROM books WHERE isbn=$1 AND title=$2 AND author=$3 AND price=$4", book.Isbn, book.Title, book.Author, price)
 	if err != nil {
 		return err
 	}
