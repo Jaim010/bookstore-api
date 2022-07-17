@@ -11,9 +11,9 @@ POSTGRES_PORT=5432
 ```
 
 ## Running the API
-To run the API, enter the command below in the `cmd` directory (`/cmd/`) .
+To run the API, enter the command below in the `cmd` directory (`/cmd/`). <br />
 ```go run .```
 
 ## Running tests
-To run the tests, enter the command below in the `tests` directory (`/tests/`) .
+To run the tests, enter the command below in the `tests` directory (`/tests/`) <br />
 ```go test -v```
