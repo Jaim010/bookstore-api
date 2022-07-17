@@ -23,6 +23,8 @@ func main() {
 	router.GET("/books/", env.GetAllBooks)
 	router.GET("/books/:isbn", env.GetBook)
 	router.PUT("/books/:isbn", env.PutBook)
+	router.POST("/books/", env.PostBook)
+	router.DELETE("/books/:isbn", env.DeleteBook)
 
 	router.Run("localhost:8080")
 }
