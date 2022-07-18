@@ -4,7 +4,7 @@ import (
 	"database/sql"
 	"fmt"
 
-	"github.com/Jaim010/bookstore/pkg/models"
+	"github.com/Jaim010/go-gin-bookstore-api/pkg/models"
 )
 
 type MockBookModel struct{}

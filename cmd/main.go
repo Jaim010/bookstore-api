@@ -3,10 +3,10 @@ package main
 import (
 	"log"
 
-	"github.com/Jaim010/bookstore/pkg/config"
-	"github.com/Jaim010/bookstore/pkg/controllers"
-	"github.com/Jaim010/bookstore/pkg/database"
-	"github.com/Jaim010/bookstore/pkg/models"
+	"github.com/Jaim010/go-gin-bookstore-api/pkg/config"
+	"github.com/Jaim010/go-gin-bookstore-api/pkg/controllers"
+	"github.com/Jaim010/go-gin-bookstore-api/pkg/database"
+	"github.com/Jaim010/go-gin-bookstore-api/pkg/models"
 	"github.com/gin-gonic/gin"
 )
 

@@ -16,4 +16,5 @@ To run the API, enter the command below in the `cmd` directory (`/cmd/`). <br />
 
 ## Running tests
 To run the tests, enter the command below in the `tests` directory (`/tests/`) <br />
-```go test -v```
+```go test -v``` <br /> 
+Or run `go test -v ./...` in the root directory (`/`).

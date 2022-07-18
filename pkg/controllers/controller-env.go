@@ -1,6 +1,6 @@
 package controllers
 
-import "github.com/Jaim010/bookstore/pkg/models"
+import "github.com/Jaim010/go-gin-bookstore-api/pkg/models"
 
 type Env struct {
 	Books interface {
