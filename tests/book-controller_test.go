@@ -39,14 +39,14 @@ func TestGetAllBooks(t *testing.T) {
 	req, _ := http.NewRequest("GET", "/books/", nil)
 
 	// Act
-	rr := httptest.NewRecorder()
-	router.ServeHTTP(rr, req)
+	w := httptest.NewRecorder()
+	router.ServeHTTP(w, req)
 
 	// Assert
-	checkResponseCode(t, http.StatusOK, rr.Code)
+	checkResponseCode(t, http.StatusOK, w.Code)
 	var responseBooks []models.Book
 
-	json.Unmarshal(rr.Body.Bytes(), &responseBooks)
+	json.Unmarshal(w.Body.Bytes(), &responseBooks)
 
 	checkEqual(t, expectedBooks, responseBooks)
 }
@@ -74,15 +74,16 @@ func TestGetBook(t *testing.T) {
 
 	for _, test := range getBookTests {
 		req, _ := http.NewRequest("GET", "/books/"+test.givenIsbn, nil)
-		rr := httptest.NewRecorder()
+		w := httptest.NewRecorder()
+
 		// Act
-		router.ServeHTTP(rr, req)
+		router.ServeHTTP(w, req)
 
 		// Assert
-		checkResponseCode(t, test.expectedCode, rr.Code)
+		checkResponseCode(t, test.expectedCode, w.Code)
 		if test.expectedCode == 200 {
 			var responseBook models.Book
-			json.Unmarshal(rr.Body.Bytes(), &responseBook)
+			json.Unmarshal(w.Body.Bytes(), &responseBook)
 
 			checkEqual(t, test.expectedBook, responseBook)
 		}
@@ -91,7 +92,7 @@ func TestGetBook(t *testing.T) {
 
 type putBookTest struct {
 	isbn         string
-	book         string
+	bookData     string
 	expectedCode int
 }
 
@@ -108,14 +109,71 @@ func TestPutBook(t *testing.T) {
 	router.PUT("/books/:isbn", env.PutBook)
 
 	for _, test := range putBookTests {
-		jsonStr := []byte(test.book)
+		jsonStr := []byte(test.bookData)
 		req, _ := http.NewRequest("PUT", "/books/"+test.isbn, bytes.NewBuffer(jsonStr))
-		rr := httptest.NewRecorder()
+		w := httptest.NewRecorder()
 
 		// Act
-		router.ServeHTTP(rr, req)
+		router.ServeHTTP(w, req)
 
 		// Assert
-		checkResponseCode(t, test.expectedCode, rr.Code)
+		checkResponseCode(t, test.expectedCode, w.Code)
+	}
+}
+
+type postBookTest struct {
+	bookData     string
+	expectedCode int
+}
+
+var postBookTests = []postBookTest{
+	{`{"isbn": "349-4902119203", "title": "Moby Dick", "author": "Jack Black", "price": 13.22}`, 201},
+	// {`{"isbn": "349-4902119203", "title": "Moby Dick", "author": "Jack Black", "price": 13.22}`, 400},
+}
+
+func TestPostBook(t *testing.T) {
+	// Arrange
+	env := controllers.Env{Books: &mock.MockBookModel{}}
+	router := gin.Default()
+	router.POST("/books/", env.PostBook)
+
+	for _, test := range postBookTests {
+		jsonStr := []byte(test.bookData)
+		req, _ := http.NewRequest("POST", "/books/", bytes.NewBuffer(jsonStr))
+		w := httptest.NewRecorder()
+
+		// Act
+		router.ServeHTTP(w, req)
+
+		// Assert
+		checkResponseCode(t, test.expectedCode, w.Code)
+	}
+}
+
+type deleteBookTest struct {
+	Isbn         string
+	expectedCode int
+}
+
+var deleteBookTests = []deleteBookTest{
+	{"978-1503261969", 204},
+	{"123-4567890123", 404},
+}
+
+func TestDeleteBook(t *testing.T) {
+	// Arrange
+	env := controllers.Env{Books: &mock.MockBookModel{}}
+	router := gin.Default()
+	router.DELETE("/books/:isbn", env.DeleteBook)
+
+	for _, test := range deleteBookTests {
+		req, _ := http.NewRequest("DELETE", "/books/"+test.Isbn, nil)
+		w := httptest.NewRecorder()
+
+		// Act
+		router.ServeHTTP(w, req)
+
+		// Assert
+		checkResponseCode(t, test.expectedCode, w.Code)
 	}
 }
