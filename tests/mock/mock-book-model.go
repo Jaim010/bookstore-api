@@ -1,6 +1,7 @@
 package mock
 
 import (
+	"database/sql"
 	"fmt"
 
 	"github.com/Jaim010/bookstore/pkg/models"
@@ -29,7 +30,7 @@ func (m *MockBookModel) GetByIsbn(isbn string) (models.Book, error) {
 		}
 	}
 
-	return models.Book{}, fmt.Errorf("book not found")
+	return models.Book{}, sql.ErrNoRows
 }
 
 func (m *MockBookModel) Update(isbn string, book models.Book) error {

@@ -20,6 +20,7 @@ func (env *Env) GetAllBooks(c *gin.Context) {
 
 func (env *Env) GetBook(c *gin.Context) {
 	isbn := c.Param("isbn")
+
 	bk, err := env.Books.GetByIsbn(isbn)
 	if err != nil {
 		if err == sql.ErrNoRows {
