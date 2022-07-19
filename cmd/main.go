@@ -25,6 +25,9 @@ func main() {
 	}
 
 	router := gin.Default()
+
+	router.GET("/health", controllers.GetHealth)
+
 	router.GET("/books/", env.GetAllBooks)
 	router.GET("/books/:isbn", env.GetBook)
 	router.PUT("/books/:isbn", env.PutBook)
