@@ -1,4 +1,4 @@
-# Golang-Gin Bookstore API
+# Golang 1.18 & Gin Bookstore API
 
 ## Setup
 Before running the API, create a `.env` file and place it in `/config/`. Copy the content below into `/config/.env` and change each value to match your credentials and database. 
