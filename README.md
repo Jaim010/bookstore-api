@@ -10,11 +10,20 @@ POSTGRES_URL=url
 POSTGRES_PORT=5432
 ```
 
-## Running the API
-To run the API, enter the command below in the `cmd` directory (`/cmd/`). <br />
-```go run .```
+## Building
+To build the API, run the command below in the `root` directory (`~/`). <br />
+```go build -o bin/main ./cmd/main.go```
+or <br />
+```make build```
 
-## Running tests
-To run the tests, enter the command below in the `tests` directory (`/tests/`) <br />
+## Running
+To run the API, run the command below in the `cmd` directory (`/cmd/`). <br />
+```go run .```
+or run `make run` in the `root` directory (`~/`). <br />
+
+
+## Testing
+To run the tests, run the command below in the `tests` directory (`/tests/`) <br />
 ```go test -v``` <br /> 
 Or run `go test -v ./...` in the root directory (`/`).
+Or run `make test` in the root directory (`/`).
