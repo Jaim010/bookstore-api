@@ -30,4 +30,4 @@ Or run `make test` in the root directory (`/`). <br />
 
 ## Setting up git hooks
 To setup the git hooks run the command below in the `root` directory (`~/`). <br />
-```make setup-git-hooks:``` <br /> 
+```make setup-git-hooks``` <br /> 
