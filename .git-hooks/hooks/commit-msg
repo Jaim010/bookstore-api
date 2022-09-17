@@ -2,10 +2,9 @@
 
 # COMMIT_EDDITMSG
 INPUT_FILE=$1
-PATTERN=[^.]+\[[^.]+]+:[^.]{1,}
+PATTERN="[^.]+\[[^.]+]+:[^.]{1,}"
 
 START_LINE=`head -n1 $INPUT_FILE`
-echo $START_LINE
 if ! [[ "$START_LINE" =~ $PATTERN ]]; then
   echo "Bad commit message, see example: <type>[optional scope]: <description>"
   exit 1
