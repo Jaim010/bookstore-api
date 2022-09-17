@@ -27,3 +27,7 @@ To run the tests, run the command below in the `tests` directory (`/tests/`) <br
 ```go test -v``` <br /> 
 Or run `go test -v ./...` in the root directory (`/`). <br /> 
 Or run `make test` in the root directory (`/`). <br /> 
+
+## Setting up git hooks
+To setup the git hooks run the command below in the `root` directory (`~/`). <br />
+```make setup-git-hooks:``` <br /> 
