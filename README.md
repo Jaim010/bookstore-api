@@ -25,5 +25,5 @@ or run `make run` in the `root` directory (`~/`). <br />
 ## Testing
 To run the tests, run the command below in the `tests` directory (`/tests/`) <br />
 ```go test -v``` <br /> 
-Or run `go test -v ./...` in the root directory (`/`).
-Or run `make test` in the root directory (`/`).
+Or run `go test -v ./...` in the root directory (`/`). <br /> 
+Or run `make test` in the root directory (`/`). <br /> 
