@@ -1,4 +1,4 @@
-module github.com/Jaim010/go-gin-bookstore-api
+module github.com/Jaim010/bookstore-api
 
 go 1.18
 

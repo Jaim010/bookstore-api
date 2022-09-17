@@ -1,4 +1,4 @@
-package controllers_unit_test
+package unittest
 
 import (
 	"bytes"
@@ -8,9 +8,9 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/Jaim010/go-gin-bookstore-api/pkg/controllers"
-	"github.com/Jaim010/go-gin-bookstore-api/pkg/models"
-	"github.com/Jaim010/go-gin-bookstore-api/tests/mock"
+	"github.com/Jaim010/bookstore-api/pkg/controllers"
+	"github.com/Jaim010/bookstore-api/pkg/models"
+	"github.com/Jaim010/bookstore-api/tests/mocks"
 	"github.com/gin-gonic/gin"
 )
 
@@ -33,13 +33,13 @@ func TestGetAllBooks(t *testing.T) {
 		{Isbn: "978-1505255607", Title: "The Time Machine", Author: "H. G. Wells", Price: 5.99},
 	}
 
-	env := controllers.Env{Books: &mock.MockBookModel{}}
+	env := controllers.Env{Books: &mocks.MockBookModel{}}
 	router := gin.Default()
 	router.GET("/books/", env.GetAllBooks)
 	req, _ := http.NewRequest("GET", "/books/", nil)
+	w := httptest.NewRecorder()
 
 	// Act
-	w := httptest.NewRecorder()
 	router.ServeHTTP(w, req)
 
 	// Assert
@@ -68,7 +68,7 @@ var getBookTests = []getBookTest{
 
 func TestGetBook(t *testing.T) {
 	// Arrange
-	env := controllers.Env{Books: &mock.MockBookModel{}}
+	env := controllers.Env{Books: &mocks.MockBookModel{}}
 	router := gin.Default()
 	router.GET("/books/:isbn", env.GetBook)
 
@@ -104,7 +104,7 @@ var putBookTests = []putBookTest{
 
 func TestPutBook(t *testing.T) {
 	// Arrange
-	env := controllers.Env{Books: &mock.MockBookModel{}}
+	env := controllers.Env{Books: &mocks.MockBookModel{}}
 	router := gin.Default()
 	router.PUT("/books/:isbn", env.PutBook)
 
@@ -133,7 +133,7 @@ var postBookTests = []postBookTest{
 
 func TestPostBook(t *testing.T) {
 	// Arrange
-	env := controllers.Env{Books: &mock.MockBookModel{}}
+	env := controllers.Env{Books: &mocks.MockBookModel{}}
 	router := gin.Default()
 	router.POST("/books/", env.PostBook)
 
@@ -162,7 +162,7 @@ var deleteBookTests = []deleteBookTest{
 
 func TestDeleteBook(t *testing.T) {
 	// Arrange
-	env := controllers.Env{Books: &mock.MockBookModel{}}
+	env := controllers.Env{Books: &mocks.MockBookModel{}}
 	router := gin.Default()
 	router.DELETE("/books/:isbn", env.DeleteBook)
 
